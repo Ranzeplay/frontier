@@ -1,0 +1,8 @@
+.ProseMirror:focus {
+    outline: none;
+}
+
+.ProseMirror {
+    @apply w-full px-4 my-4 py-8;
+    background-color: white;
+}
