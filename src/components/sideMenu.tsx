@@ -33,7 +33,7 @@ export default function SideMenu() {
           </a>
         </li>
         <li className="p-2 hover:bg-blue-900 cursor-pointer">
-          <a href="/wallet">
+          <a href="/accounting">
             <Wallet size={30} strokeWidth={1.3} className="mx-auto" />
           </a>
         </li>

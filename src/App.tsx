@@ -9,6 +9,7 @@ import NotebookCreatePage from "./routes/notebook/create";
 import NotebookOverviewPage from "./routes/notebook/[id]/overview";
 import NotebookEditTextPage from "./routes/notebook/[id]/edit/text";
 import DiaryViewPage from "./routes/diary/view";
+import AccountingOverviewPage from "./routes/accounting/overview";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
   {
     path: "/diary/:diaryDate",
     element: <DiaryViewPage />,
+  },
+  {
+    path: "/accounting",
+    element: <AccountingOverviewPage />,
   },
 ]);
 
