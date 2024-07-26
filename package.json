@@ -12,6 +12,8 @@
   "dependencies": {
     "@excalidraw/excalidraw": "^0.17.6",
     "@headlessui/react": "^2.1.2",
+    "@paralleldrive/cuid2": "^2.2.2",
+    "@tauri-apps/api": "^1.6.0",
     "@tiptap/extension-color": "^2.5.6",
     "@tiptap/extension-list-item": "^2.5.6",
     "@tiptap/extension-text-style": "^2.5.6",

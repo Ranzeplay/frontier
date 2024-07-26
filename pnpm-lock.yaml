@@ -14,6 +14,12 @@ importers:
       '@headlessui/react':
         specifier: ^2.1.2
         version: 2.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@paralleldrive/cuid2':
+        specifier: ^2.2.2
+        version: 2.2.2
+      '@tauri-apps/api':
+        specifier: ^1.6.0
+        version: 1.6.0
       '@tiptap/extension-color':
         specifier: ^2.5.6
         version: 2.5.6(@tiptap/core@2.5.6(@tiptap/pm@2.5.6))(@tiptap/extension-text-style@2.5.6(@tiptap/core@2.5.6(@tiptap/pm@2.5.6)))
@@ -329,6 +335,10 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
+  '@noble/hashes@1.4.0':
+    resolution: {integrity: sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==}
+    engines: {node: '>= 16'}
+
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -340,6 +350,9 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@paralleldrive/cuid2@2.2.2':
+    resolution: {integrity: sha512-ZOBkgDwEdoYVlSeRbYYXs0S9MejQofiVYoTbKzy/6GQa39/q5tQU2IX46+shYnUkpEl3wc+J6wRlar7r2EK2xA==}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -557,6 +570,10 @@ packages:
 
   '@tanstack/virtual-core@3.8.3':
     resolution: {integrity: sha512-vd2A2TnM5lbnWZnHi9B+L2gPtkSeOtJOAw358JqokIH1+v2J7vUAzFVPwB/wrye12RFOurffXu33plm4uQ+JBQ==}
+
+  '@tauri-apps/api@1.6.0':
+    resolution: {integrity: sha512-rqI++FWClU5I2UBp4HXFvl+sBWkdigBkxnpJDQUWttNyG7IZP4FwQGhTNL5EOw0vI8i6eSAJ5frLqO7n7jbJdg==}
+    engines: {node: '>= 14.6.0', npm: '>= 6.6.0', yarn: '>= 1.19.1'}
 
   '@tiptap/core@2.5.6':
     resolution: {integrity: sha512-sE6UgY4TChKbtKATZuEhfFdvDHxsBZ2u7+0W4IYvBP/ldlE+2Pq2tUjgekUZElhnr2Qmy7TlSNjbHkUeOTJjew==}
@@ -2007,6 +2024,8 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
+  '@noble/hashes@1.4.0': {}
+
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -2018,6 +2037,10 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.17.1
+
+  '@paralleldrive/cuid2@2.2.2':
+    dependencies:
+      '@noble/hashes': 1.4.0
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
@@ -2188,6 +2211,8 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
 
   '@tanstack/virtual-core@3.8.3': {}
+
+  '@tauri-apps/api@1.6.0': {}
 
   '@tiptap/core@2.5.6(@tiptap/pm@2.5.6)':
     dependencies:
