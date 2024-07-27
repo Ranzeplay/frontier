@@ -5,6 +5,7 @@ import { NotebookService } from "../../../../services/notebookService";
 import { Editor } from "@tiptap/react";
 import { tiptapExtensions } from "../../../../utils/tiptap";
 import { NotebookText } from "../../../../models/notebook";
+import { useEffect } from "react";
 
 export default function NotebookEditTextPage() {
   const { textId, notebookId } = useParams();
@@ -14,9 +15,23 @@ export default function NotebookEditTextPage() {
     content: "",
   });
 
+  useEffect(() => {
+    async function fetchTextIfExists() {
+      if (!notebookId || !textId) return;
+      if (textId === "new") return;
+
+      const text = await NotebookService.getText(notebookId, textId);
+      editor.commands.setContent(text.content);
+      (document.getElementById("titleInput") as HTMLInputElement).value = text.title;
+    }
+
+    fetchTextIfExists();
+  });
+
   const navigate = useNavigate();
   function handleSubmit() {
-    const title = (document.getElementById("titleInput") as HTMLInputElement).value;
+    const title = (document.getElementById("titleInput") as HTMLInputElement)
+      .value;
     const obj = {
       id: textId,
       title,
