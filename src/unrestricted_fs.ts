@@ -28,4 +28,8 @@ export class UnrestrictedFilesystem {
   public static async listSubdirectories(path: string): Promise<string[]> {
     return await invoke("list_subdirectories", { path });
   }
+
+  public static async joinPath(...paths: string[]): Promise<string> {
+   return await invoke("join_path", { paths });
+  }
 }

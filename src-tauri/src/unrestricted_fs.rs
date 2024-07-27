@@ -1,4 +1,5 @@
 use std::fs;
+use std::path::Path;
 
 #[tauri::command]
 pub fn read_file(path: String) -> String {
@@ -41,6 +42,8 @@ pub fn list_files(path: String) -> Vec<String> {
 
 #[tauri::command]
 pub fn list_subdirectories(path: String) -> Vec<String> {
+    println!("Listing directories under path: {}", path);
+
     let mut directories = vec![];
     for entry in fs::read_dir(path).expect("Something went wrong reading the directory") {
         let entry = entry.expect("Something went wrong reading the entry");
@@ -51,4 +54,14 @@ pub fn list_subdirectories(path: String) -> Vec<String> {
         }
     }
     return directories;
+}
+
+#[tauri::command]
+pub fn join_path(paths: Vec<String>) -> String {
+    let path = Path::new(&paths[0]);
+    let mut path = path.join(&paths[1]);
+    for i in 2..paths.len() {
+        path = path.join(&paths[i]);
+    }
+    return path.to_str().expect("Something went wrong converting the path to string").to_string();
 }

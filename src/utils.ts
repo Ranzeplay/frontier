@@ -1,3 +1,5 @@
+import { UnrestrictedFilesystem } from "./unrestricted_fs";
+
 export function joinPath(...parts: string[]) {
-    return parts.join('/').replace(/\/+/g, '/');
+    return UnrestrictedFilesystem.joinPath(...parts);
 }

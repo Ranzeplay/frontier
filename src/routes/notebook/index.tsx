@@ -1,10 +1,26 @@
 import { Input } from "@headlessui/react";
+import { NotebookService } from "../../services/notebookService";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Notebook } from "../../models/notebook";
 
 export default function NotebookIndexPage() {
+  const [notebooks, setNotebooks] = useState<Notebook[]>([]);
+  useEffect(() => {
+    async function fetchNotebooks() {
+      (await NotebookService.getIdList()).forEach(async (id) => {
+        const metadata = await NotebookService.getMetadata(id);
+        setNotebooks((notebooks) => [...notebooks, metadata]);
+      })
+    }
+
+    fetchNotebooks();
+  }, []);
+
   return (
     <div className="p-8 flex flex-col space-y-2">
       <h1 className="text-4xl font-bold">Notebooks</h1>
-      <h4 className="text-gray-600 ml-0.5">Showing 6 entries</h4>
+      <h4 className="text-gray-600 ml-0.5">Showing {notebooks.length} item(s)</h4>
       <div className="flex flex-row space-x-2 items-center">
         <Input
           className="px-4 py-2 border rounded-md flex-grow"
@@ -20,28 +36,24 @@ export default function NotebookIndexPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-8 mt-8">
-        <div className="flex flex-col bg-white border shadow-sm rounded-xl">
-          <img
-            className="w-full h-auto rounded-t-xl"
-            src="https://images.unsplash.com/photo-1680868543815-b8666dba60f7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&q=80"
-            alt="Card Image"
-          />
+        {notebooks.map((notebook) => (
+          <div key={notebook.id} className="flex flex-col bg-white border shadow-sm rounded-xl">
           <div className="p-4 md:p-5">
             <h3 className="text-lg font-bold text-gray-800">
-              Card title
+              {notebook.title}
             </h3>
             <p className="mt-1 text-gray-500">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
+              {notebook.description}
             </p>
-            <a
+            <Link
               className="mt-2 py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-              href="#"
+              to={`/notebook/${notebook.id}`}
             >
-              Go somewhere
-            </a>
+              View
+            </Link>
           </div>
         </div>
+        ))}
       </div>
     </div>
   );
