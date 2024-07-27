@@ -1,4 +1,4 @@
-import { Button, Input, Textarea } from "@headlessui/react";
+import { Input, Textarea } from "@headlessui/react";
 import { useState } from "react";
 import { NotebookService } from "../../services/notebookService";
 import { message } from "@tauri-apps/api/dialog";
@@ -21,6 +21,10 @@ export default function NotebookCreatePage() {
     navigate(`/notebook/${id}`);
   }
 
+  function handleDiscard() {
+    navigate(-1);
+  }
+
   return (
     <div className="p-8 flex flex-col space-y-2 max-w-screen-lg">
       <h1 className="text-4xl font-bold">Create Notebook</h1>
@@ -34,11 +38,20 @@ export default function NotebookCreatePage() {
         placeholder="Description"
       />
       <div>{/* Tags */}</div>
-      <div className="block">
-        <Button onClick={createNotebook} className="px-4 py-1.5 hover:bg-blue-500 text-blue-500 hover:text-white rounded-md border-blue-500 border transition">
-          Create
-        </Button>
-      </div>
+      <div className="block space-x-2">
+          <button
+            onClick={createNotebook}
+            className="px-3 py-1 border text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white cursor-pointer transition rounded-md"
+          >
+            Create
+          </button>
+          <button
+            onClick={handleDiscard}
+            className="px-3 py-1 border text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white cursor-pointer transition rounded-md"
+          >
+            Discard
+          </button>
+        </div>
     </div>
   );
 }

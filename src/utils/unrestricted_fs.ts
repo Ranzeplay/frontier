@@ -32,4 +32,8 @@ export class UnrestrictedFilesystem {
   public static async joinPath(...paths: string[]): Promise<string> {
    return await invoke("join_path", { paths });
   }
+
+  public static async fileExists(path: string): Promise<boolean> {
+    return await invoke("file_exists", { path });
+  }
 }

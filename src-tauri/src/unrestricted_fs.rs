@@ -17,6 +17,11 @@ pub fn remove_file(path: String) {
 }
 
 #[tauri::command]
+pub fn file_exists(path: String) -> bool {
+  return Path::new(&path).exists();
+}
+
+#[tauri::command]
 pub fn create_directory(path: String) {
   fs::create_dir(path).expect("Something went wrong creating the directory")
 }

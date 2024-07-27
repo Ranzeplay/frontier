@@ -16,6 +16,7 @@ fn main() {
           list_files,
           list_subdirectories,
           join_path,
+          file_exists
       ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");

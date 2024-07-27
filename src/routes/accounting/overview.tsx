@@ -1,4 +1,12 @@
 import {
+  Tab,
+  TabGroup,
+  TabList,
+  TabPanel,
+  TabPanels,
+} from "@headlessui/react";
+import { Link } from "react-router-dom";
+import {
   CartesianGrid,
   XAxis,
   YAxis,
@@ -31,21 +39,48 @@ export default function AccountingOverviewPage() {
       <h1 className="text-4xl font-bold">Accounting Overview</h1>
       <div className="flex flex-col bg-white border shadow-sm rounded-xl">
         <div className="p-4 md:p-5">
-          <h3 className="text-lg font-bold text-gray-800">
-            Monthly income and expenditure
-          </h3>
+          <h3 className="text-lg font-bold text-gray-800">Charts</h3>
           <div className="mt-5 flex flex-row">
-            <IndividualExpenseIncomeChart />
+            <TabGroup className="w-full flex flex-col space-y-8">
+              <TabList className="flex flex-row space-x-2">
+                <Tab className="rounded-md px-3 py-1 shadow-md data-[hover]:bg-gray-100 data-[hover]:underline data-[selected]:bg-black data-[selected]:text-white transition">
+                  Income
+                </Tab>
+                <Tab className="rounded-md px-3 py-1 shadow-md data-[hover]:bg-gray-100 data-[hover]:underline data-[selected]:bg-black data-[selected]:text-white transition">
+                  Expense
+                </Tab>
+                <Tab className="rounded-md px-3 py-1 shadow-md data-[hover]:bg-gray-100 data-[hover]:underline data-[selected]:bg-black data-[selected]:text-white transition">
+                  Waterfall
+                </Tab>
+                <Tab className="rounded-md px-3 py-1 shadow-md data-[hover]:bg-gray-100 data-[hover]:underline data-[selected]:bg-black data-[selected]:text-white transition">
+                  Radar
+                </Tab>
+              </TabList>
+              <TabPanels>
+                <TabPanel>Tab 1</TabPanel>
+                <TabPanel>Tab 2</TabPanel>
+                <TabPanel>
+                  <WaterfallChart />
+                </TabPanel>
+                <TabPanel>
+                  <IndividualExpenseIncomeChart />
+                </TabPanel>
+              </TabPanels>
+            </TabGroup>
           </div>
         </div>
       </div>
       <div className="flex flex-col bg-white border shadow-sm rounded-xl">
         <div className="p-4 md:p-5">
-          <h3 className="text-lg font-bold text-gray-800">
-            Waterfall chart of cumulative income
-          </h3>
-          <div className="mt-5 flex flex-row">
-            <WaterfallChart />
+          <h3 className="text-lg font-bold text-gray-800">Operations</h3>
+          <div className="mt-5 flex flex-row space-x-2">
+            <Link
+              role="button"
+              to="/accounting/add"
+              className="px-4 py-1.5 hover:bg-blue-500 text-blue-500 hover:text-white rounded-md border-blue-500 border transition"
+            >
+              Add
+            </Link>
           </div>
         </div>
       </div>
