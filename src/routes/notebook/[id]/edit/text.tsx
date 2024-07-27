@@ -39,6 +39,7 @@ export default function NotebookEditTextPage() {
     } as NotebookText;
 
     NotebookService.updateText(notebookId!, obj);
+    navigate('/notebook/' + notebookId);
   }
 
   function handleDiscard() {
