@@ -5,12 +5,42 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Clock, Filter } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
+import { NotebookService } from "../../../services/notebookService";
+import { NotebookEntryView } from "../../../models/notebook";
+import { useEffect, useState } from "react";
+import dayjs from "dayjs";
 
 export default function NotebookOverviewPage() {
-  const params = useParams();
-  const notebookId = params.notebookId;
+  const { notebookId } = useParams();
+
+  const [content, setContent] = useState<NotebookEntryView[]>([]);
+  useEffect(() => {
+    async function fetchMetadata() {
+      const metadata = await NotebookService.getMetadata(notebookId!);
+
+      const tempContent: NotebookEntryView[] = [];
+      for (const entry of metadata.content) {
+        const entryContent = await NotebookService.getText(
+          notebookId!,
+          entry.id
+        );
+        const view: NotebookEntryView = {
+          id: entry.id,
+          title: entryContent.title,
+          type: entry.type,
+          lastModifiedAt: new Date(),
+        };
+
+        tempContent.push(view);
+      }
+
+      setContent(tempContent);
+    }
+
+    fetchMetadata();
+  }, [notebookId]);
 
   return (
     <div className="p-8 flex-col space-y-2">
@@ -34,7 +64,7 @@ export default function NotebookOverviewPage() {
           >
             <MenuItem>
               <Link
-                to={`/notebook/${notebookId}/edit/text`}
+                to={`/notebook/${notebookId}/edit/text/new`}
                 className="hover:bg-blue-100 px-2 py-1 transition rounded text-left"
               >
                 Text
@@ -42,7 +72,7 @@ export default function NotebookOverviewPage() {
             </MenuItem>
             <MenuItem>
               <Link
-                to={`/notebook/${notebookId}/edit/draw`}
+                to={`/notebook/${notebookId}/draw`}
                 className="hover:bg-blue-100 px-2 py-1 transition rounded text-left"
               >
                 Draw
@@ -50,6 +80,43 @@ export default function NotebookOverviewPage() {
             </MenuItem>
           </MenuItems>
         </Menu>
+      </div>
+
+      <div className="flex flex-col space-y-2">
+        {content.map((c) => (
+          <div key={c.id} className="bg-white shadow rounded-md">
+            <div className="p-4 flex flex-row justify-between items-center">
+              <div>
+                <h3 className="text-xl font-bold">
+                  <Link
+                    className="text-blue-500 hover:underline cursor-pointer"
+                    to={
+                      c.type === "text"
+                        ? `/notebook/${notebookId}/edit/text/${c.id}`
+                        : `/notebook/${notebookId}/edit/draw/${c.id}`
+                    }
+                  >
+                    {c.title}
+                  </Link>
+                </h3>
+                <div className="flex flex-row space-x-4">
+                  <p className="text-gray-500 flex flex-row space-x-1 items-center">
+                    <Clock size={16} />
+                    <span className="ml-1">
+                      {dayjs(c.lastModifiedAt).format("YYYY-M-D H:mm")}
+                    </span>
+                  </p>
+                  <p className="text-gray-500 flex flex-row space-x-1 items-center">
+                    <Filter size={16} />
+                    <span className="ml-1">
+                      {c.type === "text" ? "Text" : "Drawing"}
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -1,17 +1,18 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LandingPage from "./routes/landing";
-import DrawingPage from "./routes/drawing";
+import { RouterProvider } from "react-router-dom";
 import SideMenu from "./components/sideMenu";
-import NotebookIndexPage from "./routes/notebook";
+import { createBrowserRouter } from "react-router-dom";
+import AccountingOverviewPage from "./routes/accounting/overview";
 import DiaryIndexPage from "./routes/diary";
 import DiaryEditPage from "./routes/diary/edit";
-import NotebookCreatePage from "./routes/notebook/create";
-import NotebookOverviewPage from "./routes/notebook/[id]/overview";
-import NotebookEditTextPage from "./routes/notebook/[id]/edit/text";
 import DiaryViewPage from "./routes/diary/view";
-import AccountingOverviewPage from "./routes/accounting/overview";
+import DrawingPage from "./routes/drawing";
+import LandingPage from "./routes/landing";
+import NotebookIndexPage from "./routes/notebook";
+import NotebookEditTextPage from "./routes/notebook/[id]/edit/text";
+import NotebookOverviewPage from "./routes/notebook/[id]/overview";
+import NotebookCreatePage from "./routes/notebook/create";
 
-const router = createBrowserRouter([
+const appRoutes = createBrowserRouter([
   {
     path: "/",
     element: <LandingPage />,
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
     element: <NotebookOverviewPage />,
   },
   {
-    path: "/notebook/:notebookId/edit/:textId",
+    path: "/notebook/:notebookId/edit/text/:textId",
     element: <NotebookEditTextPage />,
   },
   {
@@ -59,7 +60,7 @@ function App() {
     <div className="w-screen min-h-screen flex flex-row">
       <SideMenu />
       <div className="bg-gray-100 flex-grow w-full">
-        <RouterProvider router={router} />
+        <RouterProvider router={appRoutes} />
       </div>
     </div>
   );

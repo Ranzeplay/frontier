@@ -8,10 +8,10 @@ export default function NotebookIndexPage() {
   const [notebooks, setNotebooks] = useState<Notebook[]>([]);
   useEffect(() => {
     async function fetchNotebooks() {
-      (await NotebookService.getIdList()).forEach(async (id) => {
-        const metadata = await NotebookService.getMetadata(id);
-        setNotebooks((notebooks) => [...notebooks, metadata]);
-      })
+      const ids = await NotebookService.getIdList();
+      const metadataList = await Promise.all(ids.map((id) => NotebookService.getMetadata(id)));
+
+      setNotebooks(metadataList);
     }
 
     fetchNotebooks();
