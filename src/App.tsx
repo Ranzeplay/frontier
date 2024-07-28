@@ -11,7 +11,7 @@ import NotebookIndexPage from "./routes/notebook";
 import NotebookEditTextPage from "./routes/notebook/[id]/edit/text";
 import NotebookOverviewPage from "./routes/notebook/[id]/overview";
 import NotebookCreatePage from "./routes/notebook/create";
-import AccountingAddPage from "./routes/accounting/edit";
+import AccountingEditPage from "./routes/accounting/edit";
 
 const appRoutes = createBrowserRouter([
   {
@@ -55,8 +55,8 @@ const appRoutes = createBrowserRouter([
     element: <AccountingOverviewPage />,
   },
   {
-    path: "/accounting/add",
-    element: <AccountingAddPage />,
+    path: "/accounting/edit/:id",
+    element: <AccountingEditPage />,
   },
 ]);
 

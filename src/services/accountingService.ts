@@ -14,7 +14,7 @@ export class AccountingService {
     const existingEntries = await this.getAccountingEntriesByMonth(entry.time);
 
     if (entry.id === "new") {
-        entry.id = cuid2.createId();
+      entry.id = cuid2.createId();
       existingEntries.push(entry);
     } else {
       const index = existingEntries.findIndex((e) => e.id === entry.id);
@@ -74,15 +74,23 @@ export class AccountingService {
     return entries;
   }
 
-  public static async deleteAccountingEntry(entry: AccountingEntry) {
-    const existingEntries = await this.getAccountingEntriesByMonth(entry.time);
-    const index = existingEntries.findIndex((e) => e.id === entry.id);
-    existingEntries.splice(index, 1);
+  public static async deleteAccountingEntry(id: string) {
+    const entries = await this.getAllAccountingEntries();
+    const index = entries.findIndex((e) => e.id === id);
+    const entry = entries[index];
+    entries.splice(index, 1);
 
-    await this.saveAccountingEntriesByMonth(entry.time, existingEntries);
+    const monthEntries = entries.filter(
+      (e) =>
+        e.time.getMonth() === entry.time.getMonth() &&
+        e.time.getFullYear() === entry.time.getFullYear()
+    );
+    await this.saveAccountingEntriesByMonth(entry.time, monthEntries);
   }
 
-  public static async getAccountingEntryById(id: string): Promise<AccountingEntry | undefined> {
+  public static async getAccountingEntryById(
+    id: string
+  ): Promise<AccountingEntry | undefined> {
     const entries = await this.getAllAccountingEntries();
     return entries.find((e) => e.id === id);
   }

@@ -6,47 +6,82 @@ import {
   RadioGroup,
   Textarea,
 } from "@headlessui/react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { AccountingService } from "../../services/accountingService";
 
-export default function AccountingAddPage() {
-  const [name, setName] = useState("");
+export default function AccountingEditPage() {
+  const { id } = useParams();
+
+  const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [type, setType] = useState<"income" | "expense">("income");
   const [amount, setAmount] = useState<number | undefined>(undefined);
   const [time, setTime] = useState<Date>(new Date());
   const [remark, setRemark] = useState("");
 
+  useEffect(() => {
+    async function fetchAccountingEntry() {
+      const entry = await AccountingService.getAccountingEntryById(id!);
+      setTitle(entry!.title);
+      setCategory(entry!.category);
+      setType(entry!.type);
+      setAmount(entry!.amount);
+      setTime(new Date(entry!.time));
+      setRemark(entry!.remark);
+    }
+
+    fetchAccountingEntry();
+  }, [id]);
+
   const navigate = useNavigate();
-  function handleSubmit() {
-    console.log("submit");
+  async function handleSubmit() {
+    await AccountingService.updateAccountingEntry({
+      id: id!,
+      title,
+      category,
+      type,
+      amount: amount ?? 0,
+      time,
+      remark,
+    });
+
+    navigate("/accounting");
   }
 
   function handleDiscard() {
     navigate(-1);
   }
 
-  function handleDelete() {
-    console.log("delete");
+  async function handleDelete() {
+    await AccountingService.deleteAccountingEntry(id!);
   }
 
   return (
     <div className="p-8 flex flex-col space-y-4">
       <h1 className="text-4xl font-bold">Edit accounting entry</h1>
       <div className="flex flex-col space-y-2">
-        <Input value={name} onChange={e => setName(e.target.value)}
+        <Input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           className="px-4 py-2 border rounded-md shadow"
-          placeholder="Name"
+          placeholder="Title"
         />
 
-        <Input value={category} onChange={e => setCategory(e.target.value)}
+        <Input
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
           className="px-4 py-2 border rounded-md shadow"
           placeholder="Category"
         />
 
         <div className="px-4 py-2 border rounded-md shadow bg-white flex flex-row space-x-6 items-center">
           <p className="text-gray-400">Type</p>
-          <RadioGroup className="flex flex-row space-x-3" value={type} onChange={e => setType(e)}>
+          <RadioGroup
+            className="flex flex-row space-x-3"
+            value={type}
+            onChange={(e) => setType(e)}
+          >
             <Field className="flex flex-row items-center gap-2">
               <Radio
                 value="income"
@@ -68,19 +103,25 @@ export default function AccountingAddPage() {
           </RadioGroup>
         </div>
 
-        <Input value={amount} onChange={e => setAmount(Number(e.target.value))}
+        <Input
+          value={amount}
+          onChange={(e) => setAmount(Number(e.target.value))}
           className="px-4 py-2 border rounded-md shadow"
           placeholder="Amount"
           type="number"
         />
 
-        <Input value={time.toISOString()} onChange={e => setTime(new Date(e.target.value))}
+        <Input
+          value={time.toISOString().slice(0, 16)}
+          onChange={(e) => setTime(new Date(e.target.value))}
           className="px-4 py-2 border rounded-md shadow"
           placeholder="Time"
           type="datetime-local"
         />
 
-        <Textarea value={remark} onChange={e => setRemark(e.target.value)}
+        <Textarea
+          value={remark}
+          onChange={(e) => setRemark(e.target.value)}
           className="px-4 py-2 border rounded-md shadow"
           placeholder="Remark"
           rows={6}
