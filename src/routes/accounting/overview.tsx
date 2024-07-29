@@ -166,8 +166,6 @@ function IncomeExpenseChart(props: { data: AccountingEntry[] }) {
     });
   }
 
-  console.log(viewData);
-
   return (
     <ResponsiveContainer width="100%" height={400}>
       <BarChart

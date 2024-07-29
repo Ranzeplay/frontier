@@ -69,7 +69,7 @@ export class AccountingService {
       }
     }
 
-    entries.sort((a, b) => a.time.getTime() - b.time.getTime());
+    entries.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
 
     return entries;
   }
