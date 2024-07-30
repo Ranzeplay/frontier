@@ -60,6 +60,15 @@ export class NotebookService {
     return JSON.parse(metadata) as Notebook;
   }
 
+  public static async setMetadata(id: string, metadata: Notebook) {
+    const metadataPath = await UnrestrictedFilesystem.joinPath(
+      await this.notebookDirectory,
+      id,
+      "metadata.json"
+    );
+    await UnrestrictedFilesystem.writeFile(metadataPath, JSON.stringify(metadata));
+  }
+
   public static async getText(notebookId: string, textId: string) {
     const textPath = await UnrestrictedFilesystem.joinPath(
       await this.notebookDirectory,
@@ -155,21 +164,32 @@ export class NotebookService {
   }
 
   public static async deleteText(notebookId: string, textId: string) {
+    const notebookMeta = await this.getMetadata(notebookId);
+    notebookMeta.content = notebookMeta.content.filter(
+      (content) => content.id !== textId
+    );
+    await this.setMetadata(notebookId, notebookMeta);
+
     const textPath = await UnrestrictedFilesystem.joinPath(
       await this.notebookDirectory,
       notebookId,
-      "texts",
-      textId
+      `${textId}.json`
     );
+
     await UnrestrictedFilesystem.removeFile(textPath);
   }
 
   public static async deleteDrawing(notebookId: string, drawingId: string) {
+    const notebookMeta = await this.getMetadata(notebookId);
+    notebookMeta.content = notebookMeta.content.filter(
+      (content) => content.id !== drawingId
+    );
+    await this.setMetadata(notebookId, notebookMeta);
+
     const drawingPath = await UnrestrictedFilesystem.joinPath(
       await this.notebookDirectory,
       notebookId,
-      "drawings",
-      drawingId
+      `${drawingId}.json`
     );
     await UnrestrictedFilesystem.removeFile(drawingPath);
   }
