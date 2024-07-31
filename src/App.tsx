@@ -12,6 +12,7 @@ import NotebookEditTextPage from "./routes/notebook/[id]/edit/text";
 import NotebookOverviewPage from "./routes/notebook/[id]/overview";
 import NotebookCreatePage from "./routes/notebook/create";
 import AccountingEditPage from "./routes/accounting/edit";
+import { invoke } from "@tauri-apps/api";
 
 const appRoutes = createBrowserRouter([
   {

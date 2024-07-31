@@ -1,10 +1,11 @@
 import { Input } from "@headlessui/react";
 import { NotebookService } from "../../services/notebookService";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Notebook } from "../../models/notebook";
 
 export default function NotebookIndexPage() {
+  const location = useLocation();
   const [notebooks, setNotebooks] = useState<Notebook[]>([]);
   useEffect(() => {
     async function fetchNotebooks() {
@@ -15,7 +16,7 @@ export default function NotebookIndexPage() {
     }
 
     fetchNotebooks();
-  }, []);
+  }, [location]);
 
   return (
     <div className="p-8 flex flex-col space-y-2">

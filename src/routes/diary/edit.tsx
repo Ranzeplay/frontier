@@ -59,8 +59,8 @@ export default function NotebookEditTextPage() {
     navigate(-1);
   }
 
-  function handleDelete() {
-    DiaryService.deleteDiary(
+  async function handleDelete() {
+    await DiaryService.deleteDiary(
       DiaryService.getId(
         parseInt(year!),
         parseInt(month!),

@@ -6,7 +6,7 @@ import {
   MenuItems,
 } from "@headlessui/react";
 import { ChevronDown, Clock, Filter } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { NotebookService } from "../../../services/notebookService";
 import { NotebookEntryView } from "../../../models/notebook";
 import { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ import dayjs from "dayjs";
 
 export default function NotebookOverviewPage() {
   const { notebookId } = useParams();
+  const location = useLocation();
 
   const [content, setContent] = useState<NotebookEntryView[]>([]);
   useEffect(() => {
@@ -40,7 +41,7 @@ export default function NotebookOverviewPage() {
     }
 
     fetchMetadata();
-  }, [notebookId]);
+  }, [notebookId, location]);
 
   return (
     <div className="p-8 flex-col space-y-2">
