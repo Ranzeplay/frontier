@@ -2,7 +2,7 @@ import cuid2 from "@paralleldrive/cuid2";
 import { VaultService } from "./vaultService";
 import { message } from "@tauri-apps/api/dialog";
 import { UnrestrictedFilesystem } from "../utils/unrestricted_fs";
-import { Notebook, NotebookContent, NotebookText } from "../models/notebook";
+import { Notebook, NotebookContent, NotebookDrawing, NotebookText } from "../models/notebook";
 
 export class NotebookService {
   public static notebookDirectory = UnrestrictedFilesystem.joinPath(
@@ -83,11 +83,11 @@ export class NotebookService {
     const drawingPath = await UnrestrictedFilesystem.joinPath(
       await this.notebookDirectory,
       notebookId,
-      "drawings",
-      drawingId
+      `${drawingId}.json`
     );
     const drawing = await UnrestrictedFilesystem.readFile(drawingPath);
-    return drawing;
+
+    return JSON.parse(drawing) as NotebookDrawing;
   }
 
   public static async updateText(notebookId: string, text: NotebookText) {
@@ -141,26 +141,54 @@ export class NotebookService {
 
   public static async updateDrawing(
     notebookId: string,
-    drawingId: string,
-    drawing: string
+    drawing: NotebookDrawing
   ) {
-    const id = drawingId === "new" ? cuid2.createId() : drawingId;
-    const drawingPath = await UnrestrictedFilesystem.joinPath(
+    const notebookMetadataPath = await UnrestrictedFilesystem.joinPath(
       await this.notebookDirectory,
       notebookId,
-      "drawings",
-      id
+      "metadata.json"
     );
-    await UnrestrictedFilesystem.writeFile(drawingPath, drawing);
-    return id;
-  }
+    const notebookMetadataFileStr = await UnrestrictedFilesystem.readFile(notebookMetadataPath);
+    const notebookMetadata = JSON.parse(notebookMetadataFileStr) as Notebook;
 
-  public static async deleteNotebook(id: string) {
-    const directory = await UnrestrictedFilesystem.joinPath(
-      await this.notebookDirectory,
-      id
+    let entry: NotebookContent;
+    if (drawing.id === "new") {
+      drawing.id = cuid2.createId();
+
+      entry = {
+        id: drawing.id,
+        type: "drawing",
+        createdAt: new Date(),
+        lastModifiedAt: new Date(),
+      } as NotebookContent;
+    } else {
+      entry = notebookMetadata.content.find(
+        (content) => content.id === drawing.id
+      ) as NotebookContent;
+      entry.lastModifiedAt = new Date();
+    }
+
+    const index = notebookMetadata.content.findIndex(
+      (content) => content.id === drawing.id
     );
-    await UnrestrictedFilesystem.removeDirectory(directory);
+    if (index !== -1) {
+      notebookMetadata.content[index] = entry;
+    } else {
+      notebookMetadata.content.push(entry);
+    }
+
+    UnrestrictedFilesystem.writeFile(
+      notebookMetadataPath,
+      JSON.stringify(notebookMetadata)
+    );
+
+    const filePath = await UnrestrictedFilesystem.joinPath(
+      await this.notebookDirectory,
+      notebookId,
+      `${drawing.id}.json`
+    );
+    await UnrestrictedFilesystem.writeFile(filePath, JSON.stringify(drawing));
+    return drawing.id;
   }
 
   public static async deleteText(notebookId: string, textId: string) {

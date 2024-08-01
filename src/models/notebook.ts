@@ -19,6 +19,12 @@ export type NotebookText = {
     content: string;
 }
 
+export type NotebookDrawing = {
+    id: string;
+    title: string;
+    content: string;
+}
+
 export type NotebookEntryView = {
     id: string;
     title: string;

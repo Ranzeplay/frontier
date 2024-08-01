@@ -5,23 +5,18 @@ import AccountingOverviewPage from "./routes/accounting/overview";
 import DiaryIndexPage from "./routes/diary";
 import DiaryEditPage from "./routes/diary/edit";
 import DiaryViewPage from "./routes/diary/view";
-import DrawingPage from "./routes/drawing";
 import LandingPage from "./routes/landing";
 import NotebookIndexPage from "./routes/notebook";
 import NotebookEditTextPage from "./routes/notebook/[id]/edit/text";
 import NotebookOverviewPage from "./routes/notebook/[id]/overview";
 import NotebookCreatePage from "./routes/notebook/create";
 import AccountingEditPage from "./routes/accounting/edit";
-import { invoke } from "@tauri-apps/api";
+import NotebookEditDrawingPage from "./routes/notebook/[id]/edit/draw";
 
 const appRoutes = createBrowserRouter([
   {
     path: "/",
     element: <LandingPage />,
-  },
-  {
-    path: "/drawing",
-    element: <DrawingPage />,
   },
   {
     path: "/notebook",
@@ -38,6 +33,10 @@ const appRoutes = createBrowserRouter([
   {
     path: "/notebook/:notebookId/edit/text/:textId",
     element: <NotebookEditTextPage />,
+  },
+  {
+    path: "/notebook/:notebookId/edit/drawing/:drawingId",
+    element: <NotebookEditDrawingPage />,
   },
   {
     path: "/diary",

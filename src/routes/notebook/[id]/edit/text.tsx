@@ -46,11 +46,11 @@ export default function NotebookEditTextPage() {
     navigate(-1);
   }
 
-  function handleDelete() {
+  async function handleDelete() {
     if (!notebookId || !textId) return;
     if (textId === "new") return;
 
-    NotebookService.deleteText(notebookId, textId);
+    await NotebookService.deleteText(notebookId, textId);
 
     navigate(-1);
   }

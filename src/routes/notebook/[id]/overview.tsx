@@ -73,7 +73,7 @@ export default function NotebookOverviewPage() {
             </MenuItem>
             <MenuItem>
               <Link
-                to={`/notebook/${notebookId}/draw`}
+                to={`/notebook/${notebookId}/edit/drawing/new`}
                 className="hover:bg-blue-100 px-2 py-1 transition rounded text-left"
               >
                 Draw
@@ -94,7 +94,7 @@ export default function NotebookOverviewPage() {
                     to={
                       c.type === "text"
                         ? `/notebook/${notebookId}/edit/text/${c.id}`
-                        : `/notebook/${notebookId}/edit/draw/${c.id}`
+                        : `/notebook/${notebookId}/edit/drawing/${c.id}`
                     }
                   >
                     {c.title}

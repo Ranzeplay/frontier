@@ -13,6 +13,7 @@
     "@excalidraw/excalidraw": "^0.17.6",
     "@headlessui/react": "^2.1.2",
     "@paralleldrive/cuid2": "^2.2.2",
+    "@react-typed-hooks/use-key-press": "^1.0.5",
     "@tauri-apps/api": "^1.6.0",
     "@tiptap/extension-color": "^2.5.6",
     "@tiptap/extension-list-item": "^2.5.6",
@@ -24,6 +25,7 @@
     "lucide-react": "^0.414.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-full-screen": "^1.1.1",
     "react-router-dom": "^6.25.1",
     "recharts": "^2.12.7"
   },
