@@ -1,5 +1,6 @@
 import {
   BookHeart,
+  Calendar,
   Image,
   LayoutDashboard,
   Notebook,
@@ -25,6 +26,11 @@ export default function SideMenu() {
         <li className="p-2 hover:bg-blue-900 cursor-pointer">
           <a href="/diary">
             <BookHeart size={30} strokeWidth={1.3} className="mx-auto" />
+          </a>
+        </li>
+        <li className="p-2 hover:bg-blue-900 cursor-pointer">
+          <a href="/calendar">
+            <Calendar size={30} strokeWidth={1.3} className="mx-auto" />
           </a>
         </li>
         <li className="p-2 hover:bg-blue-900 cursor-pointer">
