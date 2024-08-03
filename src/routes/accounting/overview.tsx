@@ -18,14 +18,14 @@ import {
   BarChart,
   ResponsiveContainer,
 } from "recharts";
-import { getCurrentMonth } from "../../utils/datetime";
+import { getCurrentMonthInputText } from "../../utils/datetime";
 import { AccountingEntry } from "../../models/accounting";
 import { useEffect, useState } from "react";
 import { AccountingService } from "../../services/accountingService";
 import dayjs from "dayjs";
 
 export default function AccountingOverviewPage() {
-  const [month, setMonth] = useState(getCurrentMonth());
+  const [month, setMonth] = useState(getCurrentMonthInputText());
   const [data, setData] = useState<AccountingEntry[]>([]);
 
   useEffect(() => {

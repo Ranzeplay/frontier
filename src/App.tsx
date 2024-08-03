@@ -13,6 +13,7 @@ import NotebookCreatePage from "./routes/notebook/create";
 import AccountingEditPage from "./routes/accounting/edit";
 import NotebookEditDrawingPage from "./routes/notebook/[id]/edit/draw";
 import CalendarOverviewPage from "./routes/calendar/overview";
+import CalendarEventPage from "./routes/calendar/event";
 
 const appRoutes = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const appRoutes = createBrowserRouter([
   {
     path: "/calendar",
     element: <CalendarOverviewPage />,
+  },
+  {
+    path: "/calendar/event/:eventId",
+    element: <CalendarEventPage />,
   },
 ]);
 
