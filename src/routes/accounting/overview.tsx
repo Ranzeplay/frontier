@@ -7,22 +7,14 @@ import {
   TabPanels,
 } from "@headlessui/react";
 import { Link } from "react-router-dom";
-import {
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  ReferenceLine,
-  Bar,
-  BarChart,
-  ResponsiveContainer,
-} from "recharts";
 import { getCurrentMonthInputText } from "../../utils/datetime";
 import { AccountingEntry } from "../../models/accounting";
 import { useEffect, useState } from "react";
 import { AccountingService } from "../../services/accountingService";
 import dayjs from "dayjs";
+import { IncomeExpenseChart } from "./view/incomeExpense";
+import WaterfallChart from "./view/waterfall";
+import { RadarChart } from "./view/radar";
 
 export default function AccountingOverviewPage() {
   const [month, setMonth] = useState(getCurrentMonthInputText());
@@ -31,7 +23,7 @@ export default function AccountingOverviewPage() {
   useEffect(() => {
     AccountingService.getAccountingEntriesByMonth(new Date(month)).then(
       (entries) => {
-        setData(entries);
+        setData(entries.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()));
       }
     );
   }, [month]);
@@ -151,57 +143,5 @@ export default function AccountingOverviewPage() {
         </div>
       </div>
     </div>
-  );
-}
-
-function WaterfallChart(props: { data: AccountingEntry[] }) {
-  return <>Not implemented yet.</>;
-}
-
-function RadarChart(props: { data: AccountingEntry[] }) {
-  return <div></div>;
-}
-
-function IncomeExpenseChart(props: { data: AccountingEntry[] }) {
-  const viewData: { day: string; income: number; expense: number }[] = [];
-  for (let i = 1; i <= 31; i++) {
-    viewData.push({
-      day: i.toString(),
-      income: props.data
-        .filter(
-          (entry) =>
-            new Date(entry.time).getDate() === i && entry.type === "income"
-        )
-        .reduce((acc, entry) => acc + entry.amount, 0),
-      expense: -props.data
-        .filter(
-          (entry) =>
-            new Date(entry.time).getDate() === i && entry.type === "expense"
-        )
-        .reduce((acc, entry) => acc + entry.amount, 0),
-    });
-  }
-
-  return (
-    <ResponsiveContainer width="100%" height={400}>
-      <BarChart
-        data={viewData}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="day" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <ReferenceLine y={0} stroke="#000" />
-        <Bar dataKey="expense" fill="#8884d8" name="Expense" />
-        <Bar dataKey="income" fill="#82ca9d" name="Income" />
-      </BarChart>
-    </ResponsiveContainer>
   );
 }

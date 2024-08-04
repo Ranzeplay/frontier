@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AccountingService } from "../../services/accountingService";
+import dayjs from "dayjs";
 
 export default function AccountingEditPage() {
   const { id } = useParams();
@@ -112,7 +113,7 @@ export default function AccountingEditPage() {
         />
 
         <Input
-          value={time.toISOString().slice(0, 16)}
+          value={dayjs(time).format("YYYY-MM-DDTHH:mm")}
           onChange={(e) => setTime(new Date(e.target.value))}
           className="px-4 py-2 border rounded-md shadow"
           placeholder="Time"
