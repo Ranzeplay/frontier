@@ -41,8 +41,8 @@ export default function AccountingOverviewPage() {
       <h1 className="text-4xl font-bold">Accounting Overview</h1>
       <div className="flex flex-col bg-white border shadow-sm rounded-xl">
         <div className="p-4 md:p-5">
-          <h3 className="text-lg font-bold text-gray-800">Charts</h3>
-          <div className="mt-5 flex flex-row">
+          <h3 className="text-lg font-bold text-gray-800">Statistics</h3>
+          <div className="mt-5 flex flex-col">
             <TabGroup className="w-full flex flex-col space-y-8">
               <TabList className="flex flex-row space-x-2">
                 <Input
@@ -73,6 +73,22 @@ export default function AccountingOverviewPage() {
                 </TabPanel>
               </TabPanels>
             </TabGroup>
+
+            <div className="flex flex-row space-x-2">
+              <h4 className="font-bold">Overall flow in this month:</h4>
+              <p className="text-green-600">
+                +{data.filter(i => i.type == "income").reduce((acc, entry) => acc + entry.amount, 0)}
+              </p>
+              <p className="text-red-600">
+                -{data.filter(i => i.type == "expense").reduce((red, entry) => red + entry.amount, 0)}
+              </p>
+              <p className="text-black">
+                =
+              </p>
+              <p className="text-blue-500">
+                {data.filter(i => i.type == "income").reduce((acc, entry) => acc + entry.amount, 0) - data.filter(i => i.type == "expense").reduce((red, entry) => red + entry.amount, 0)}
+              </p>
+            </div>
           </div>
         </div>
       </div>

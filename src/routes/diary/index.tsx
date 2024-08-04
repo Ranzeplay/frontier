@@ -37,7 +37,7 @@ export default function DiaryIndexPage() {
   return (
     <div className="p-8 flex flex-col space-y-2">
       <h1 className="text-4xl font-bold">Diaries</h1>
-      <h4 className="text-gray-600 ml-0.5">Showing 30 entries</h4>
+      <h4 className="text-gray-600 ml-0.5">Showing {diaries.length} entries</h4>
       <div className="flex flex-row space-x-2 items-center">
         <Input
           className="px-4 py-2 border rounded-md flex-grow"

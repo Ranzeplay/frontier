@@ -15,7 +15,7 @@ export default function AccountingEditPage() {
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
-  const [type, setType] = useState<"income" | "expense">("income");
+  const [type, setType] = useState<"income" | "expense">("expense");
   const [amount, setAmount] = useState<number | undefined>(undefined);
   const [time, setTime] = useState<Date>(new Date());
   const [remark, setRemark] = useState("");
