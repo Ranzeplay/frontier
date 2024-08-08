@@ -1,11 +1,12 @@
 import { Dayjs } from "dayjs";
-import { CalendarHeaderEntry, CalendarPanelEntry } from "./shared";
+import { CalendarHeaderEntry, CalendarPanelEntry } from "../shared";
 
-export function CalendarMonthlyView(props: { baseDate: Dayjs }) {
-  const startOfMonthWeekStart = props.baseDate.startOf("month").startOf("week");
+export function CalendarWeeklyView(props: { baseDate: Dayjs }) {
   const days: Dayjs[] = [];
-  for (let i = 0; i < 42; i++) {
-    days.push(startOfMonthWeekStart.add(i, "day"));
+  const weekStart = props.baseDate.startOf("week");
+
+  for (let i = 0; i < 7; i++) {
+    days.push(weekStart.add(i, "day"));
   }
 
   return (
@@ -19,7 +20,7 @@ export function CalendarMonthlyView(props: { baseDate: Dayjs }) {
         <CalendarHeaderEntry text="Fri" />
         <CalendarHeaderEntry text="Sat" />
       </div>
-      <div className="grid grid-cols-7 grid-rows-6 divide-x-2 divide-y flex-grow">
+      <div className="grid grid-cols-7 divide-x-2 divide-y flex-grow">
         {days.map((d) => (
           <CalendarPanelEntry targetDate={d} />
         ))}

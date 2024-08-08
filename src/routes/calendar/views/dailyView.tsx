@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from "dayjs";
 import { Clock } from "lucide-react";
 import { Link } from "react-router-dom";
-import { getNthFromDate } from "../../utils/datetime";
+import { getNthFromDate } from "../../../utils/datetime";
 
 export function CalendarDailyView(props: { baseDate: Dayjs }) {
   return (

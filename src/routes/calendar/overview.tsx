@@ -9,14 +9,14 @@ import {
   TabPanel,
   Button,
 } from "@headlessui/react";
-import { getCurrentDayInputText } from "../../utils/datetime";
-import { CalendarMonthlyView } from "./monthlyView";
-import { CalendarWeeklyView } from "./weeklyView";
-import { CalendarDailyView } from "./dailyView";
+import { CalendarMonthlyView } from "./views/monthlyView";
+import { CalendarWeeklyView } from "./views/weeklyView";
+import { CalendarDailyView } from "./views/dailyView";
+import { useState } from "react";
 
 export default function CalendarOverviewPage() {
-  const now = dayjs();
-  const startOfMonthWeekStart = now.startOf("month").startOf("week");
+  const [selectedDate, setSelectedDate] = useState(dayjs());
+  const startOfMonthWeekStart = selectedDate.startOf("month").startOf("week");
   const days: Dayjs[] = [];
   for (let i = 0; i < 42; i++) {
     days.push(startOfMonthWeekStart.add(i, "day"));
@@ -27,7 +27,8 @@ export default function CalendarOverviewPage() {
       <TabGroup className="w-full flex flex-col space-y-1">
         <TabList className="flex flex-row space-x-2 p-2 items-baseline">
           <Input
-            defaultValue={getCurrentDayInputText()}
+            value={selectedDate.format("YYYY-MM-DD")}
+            onChange={e => setSelectedDate(dayjs(e.target.value))}
             type="date"
             className="rounded-md px-3 py-1 shadow-md border border-1 border-gray-700"
           />
@@ -51,13 +52,13 @@ export default function CalendarOverviewPage() {
         </TabList>
         <TabPanels>
           <TabPanel className="flex flex-col h-full">
-            <CalendarMonthlyView baseDate={now} />
+            <CalendarMonthlyView baseDate={selectedDate} />
           </TabPanel>
           <TabPanel className="flex flex-col">
-            <CalendarWeeklyView baseDate={now} />
+            <CalendarWeeklyView baseDate={selectedDate} />
           </TabPanel>
           <TabPanel className="p-4">
-            <CalendarDailyView baseDate={now} />
+            <CalendarDailyView baseDate={selectedDate} />
           </TabPanel>
         </TabPanels>
       </TabGroup>

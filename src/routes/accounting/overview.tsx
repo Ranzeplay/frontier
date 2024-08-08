@@ -12,9 +12,9 @@ import { AccountingEntry } from "../../models/accounting";
 import { useEffect, useState } from "react";
 import { AccountingService } from "../../services/accountingService";
 import dayjs from "dayjs";
-import { IncomeExpenseChart } from "./view/incomeExpense";
-import WaterfallChart from "./view/waterfall";
-import { RadarChart } from "./view/radar";
+import { AccountingIncomeExpenseChart } from "./view/incomeExpense";
+import AccountingWaterfallChart from "./view/waterfall";
+import { AccountingRadarChart } from "./view/radar";
 
 export default function AccountingOverviewPage() {
   const [month, setMonth] = useState(getCurrentMonthInputText());
@@ -55,13 +55,13 @@ export default function AccountingOverviewPage() {
               </TabList>
               <TabPanels>
                 <TabPanel>
-                  <IncomeExpenseChart data={data} />
+                  <AccountingIncomeExpenseChart data={data} />
                 </TabPanel>
                 <TabPanel>
-                  <WaterfallChart data={data} />
+                  <AccountingWaterfallChart data={data} />
                 </TabPanel>
                 <TabPanel>
-                  <RadarChart data={data} />
+                  <AccountingRadarChart data={data} />
                 </TabPanel>
               </TabPanels>
             </TabGroup>

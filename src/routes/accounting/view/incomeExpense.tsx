@@ -1,7 +1,7 @@
 import { ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ReferenceLine, Bar, BarChart } from "recharts";
 import { AccountingEntry } from "../../../models/accounting";
 
-export function IncomeExpenseChart(props: { data: AccountingEntry[] }) {
+export function AccountingIncomeExpenseChart(props: { data: AccountingEntry[] }) {
   const viewData: { day: string; income: number; expense: number }[] = [];
   for (let i = 1; i <= 31; i++) {
     viewData.push({

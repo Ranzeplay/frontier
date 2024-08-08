@@ -17,6 +17,7 @@ export class VaultService {
             await fs.createDir(await UnrestrictedFilesystem.joinPath(path, 'notebooks'));
             await fs.createDir(await UnrestrictedFilesystem.joinPath(path, 'accounting'));
             await fs.createDir(await UnrestrictedFilesystem.joinPath(path, 'assets'));
+            await fs.createDir(await UnrestrictedFilesystem.joinPath(path, 'calendar'));
 
             await message("Vault created successfully", { title: "Frontier" });
         }

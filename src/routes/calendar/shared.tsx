@@ -20,31 +20,17 @@ export function CalendarPanelEntry(props: { targetDate: dayjs.Dayjs }) {
           {props.targetDate.date()}
         </h5>
         <div className="flex flex-col space-y-1">
-          <CalendarPanelViewEventEntry
-            event={{
-              id: "1",
-              title: "Demo event",
-              date: new Date(),
-              content: "Hello, world!",
-            }}
-          />
-          <CalendarPanelViewEventEntry
-            event={{
-              id: "2",
-              title: "Demo event",
-              date: new Date(),
-              content: "Hello, world!",
-            }}
-          />
+          {/* Add events here */}
         </div>
       </div>
     );
   }
 
-  export function CalendarPanelViewEventEntry(props: { event: CalendarEvent }) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  export function CalendarPanelViewEventEntry(_props: { event: CalendarEvent }) {
     return (
       <div className="w-full py-0.5 px-1 rounded flex bg-yellow-100 hover:bg-yellow-200 transition cursor-pointer items-center text-xs">
-        <h5 className="font-bold">{props.event.title}</h5>
+        <h5 className="font-bold">Event title</h5>
       </div>
     );
   }
