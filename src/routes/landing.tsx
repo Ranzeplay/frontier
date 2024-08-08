@@ -21,6 +21,7 @@ export default function LandingPage() {
 
   async function loadVault() {
     await VaultService.openVault(directory);
+    window.location.reload();
   }
 
   return (

@@ -9,9 +9,9 @@ import {
   Wallet,
 } from "lucide-react";
 
-export default function SideMenu() {
+export default function SideMenu(props: { hidden?: boolean }) {
   return (
-    <div className="h-screen sticky top-0 w-12 bg-blue-950 text-white py-2 flex flex-col z-50">
+    <div className={`h-screen sticky top-0 w-12 bg-blue-950 text-white py-2 flex flex-col z-50 ${props.hidden && "hidden"}`}>
       <ul className="space-y-2 flex-grow -ml-0.5">
         <li className="p-2 hover:bg-blue-900 cursor-pointer">
           <a href="/">

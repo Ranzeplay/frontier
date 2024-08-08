@@ -14,6 +14,8 @@ import AccountingEditPage from "./routes/accounting/edit";
 import NotebookEditDrawingPage from "./routes/notebook/[id]/edit/draw";
 import CalendarOverviewPage from "./routes/calendar/overview";
 import CalendarEventPage from "./routes/calendar/event";
+import { VaultService } from "./services/vaultService";
+import { useEffect, useState } from "react";
 
 const appRoutes = createBrowserRouter([
   {
@@ -71,9 +73,15 @@ const appRoutes = createBrowserRouter([
 ]);
 
 function App() {
+  const [hideSideMenu, setHideSideMenu] = useState(false);
+  useEffect(() => {
+    setHideSideMenu(VaultService.vaultPath == "");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [VaultService.vaultPath]);
+
   return (
     <div className="w-screen min-h-screen flex flex-row">
-      <SideMenu />
+      <SideMenu hidden={hideSideMenu} />
       <div className="bg-gray-100 flex-grow w-full">
         <RouterProvider router={appRoutes} />
       </div>
