@@ -6,6 +6,7 @@ import {
   PolarAngleAxis,
   PolarRadiusAxis,
   ResponsiveContainer,
+  Tooltip,
 } from "recharts";
 import { AccountingEntry } from "../../../models/accounting";
 
@@ -71,6 +72,7 @@ export function AccountingRadarChart(props: { data: AccountingEntry[] }) {
             fillOpacity={0.6}
           />
           <Legend />
+          <Tooltip />
         </RadarChart>
       </ResponsiveContainer>
     </div>
