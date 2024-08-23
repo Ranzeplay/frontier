@@ -78,7 +78,7 @@ export default function AccountingOverviewPage() {
                 =
               </p>
               <p className="text-blue-500">
-                {data.filter(i => i.type == "income").reduce((acc, entry) => acc + entry.amount, 0) - data.filter(i => i.type == "expense").reduce((red, entry) => red + entry.amount, 0)}
+                {Number(data.filter(i => i.type == "income").reduce((acc, entry) => acc + entry.amount, 0).toFixed(2)) - Number(data.filter(i => i.type == "expense").reduce((red, entry) => red + entry.amount, 0).toFixed(2))}
               </p>
             </div>
           </div>

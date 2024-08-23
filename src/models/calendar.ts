@@ -6,7 +6,7 @@ export type CalendarEvent = {
 export type CalendarSpanEvent = {
   id: string;
   title: string;
-  startTime: Date;
+  beginTime: Date;
   endTime: Date;
   content: string;
 };

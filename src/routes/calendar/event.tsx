@@ -1,20 +1,64 @@
-import { Field, Input, Label, Radio, RadioGroup, Textarea } from "@headlessui/react";
-import { useState } from "react";
+import {
+  Button,
+  Field,
+  Input,
+  Label,
+  Radio,
+  RadioGroup,
+  Tab,
+  TabGroup,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Textarea,
+} from "@headlessui/react";
+import dayjs from "dayjs";
+import { Fragment, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { CalendarService } from "../../services/calendarService";
+import { CalendarDeadlineEvent, CalendarSpanEvent } from "../../models/calendar";
 
 export default function CalendarEventPage() {
   const { eventId } = useParams();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
-  const [time, setTime] = useState(new Date());
   const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState<"default" | "low" | "medium" | "high">(
-    "default"
+  const [priority, setPriority] = useState<
+    "default" | "low" | "medium" | "high"
+  >("default");
+
+  const [eventType, setEventType] = useState<"span" | "deadline" | "reminder">(
+    "span"
   );
 
+  const [spanBeginTime, setSpanBeginTime] = useState(dayjs());
+  const [spanEndTime, setSpanEndTime] = useState(dayjs());
+
+  const [deadlineTime, setDeadlineTime] = useState(dayjs());
+  const [remindTime, setRemindTime] = useState(dayjs());
+
   function handleSubmit(): void {
-    throw new Error("Function not implemented.");
+    switch (eventType) {
+      case "span":
+        CalendarService.createEvent(eventType, {
+          id: "",
+          title,
+          beginTime: spanBeginTime.toDate(),
+          endTime: spanEndTime.toDate(),
+          content: description,
+        } as CalendarSpanEvent);
+        break;
+      case "deadline":
+        CalendarService.createEvent(eventType, {
+          id: "",
+          title,
+          time: deadlineTime.toDate(),
+          content: description
+        } as CalendarDeadlineEvent);
+        break;
+      case "reminder":
+    }
   }
 
   function handleDiscard(): void {
@@ -37,13 +81,89 @@ export default function CalendarEventPage() {
         placeholder="Title"
       />
 
-      <Input
-        value={time.toISOString().slice(0, 16)}
-        onChange={(e) => setTime(new Date(e.target.value))}
-        className="px-4 py-2 border rounded-md shadow"
-        placeholder="Time"
-        type="datetime-local"
-      />
+      <TabGroup className="w-full flex flex-col space-y-4">
+        <TabList className="flex flex-row space-x-2 items-baseline px-4 py-2 border rounded-md shadow bg-white">
+          <p className="text-gray-400 mr-4">Preset</p>
+          <Tab as={Fragment}>
+            {({ selected }) => {
+              if (selected) setEventType("span");
+              return (
+                <Button className="rounded-md px-3 py-1 shadow-md bg-white data-[hover]:bg-gray-100 data-[hover]:underline data-[selected]:bg-black data-[selected]:text-white transition">
+                  Span
+                </Button>
+              );
+            }}
+          </Tab>
+          <Tab as={Fragment}>
+            {({ selected }) => {
+              if (selected) setEventType("deadline");
+              return (
+                <Button className="rounded-md px-3 py-1 shadow-md bg-white data-[hover]:bg-gray-100 data-[hover]:underline data-[selected]:bg-black data-[selected]:text-white transition">
+                  Deadline
+                </Button>
+              );
+            }}
+          </Tab>
+          <Tab as={Fragment}>
+            {({ selected }) => {
+              if (selected) setEventType("reminder");
+              return (
+                <Button className="rounded-md px-3 py-1 shadow-md bg-white data-[hover]:bg-gray-100 data-[hover]:underline data-[selected]:bg-black data-[selected]:text-white transition">
+                  Reminder
+                </Button>
+              );
+            }}
+          </Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel className="flex flex-col space-y-4">
+            <div className="flex flex-row space-x-1 px-4 py-2 border rounded-md shadow bg-white items-center">
+              <p className="text-gray-400 mr-1">Begin time</p>
+              <Input
+                value={spanBeginTime.format("YYYY-MM-DDTHH:mm")}
+                onChange={(e) => setSpanBeginTime(dayjs(e.target.value))}
+                placeholder="Begin time"
+                type="datetime-local"
+                className="flex-grow"
+              />
+            </div>
+            <div className="flex flex-row space-x-1 px-4 py-2 border rounded-md shadow bg-white items-center">
+              <p className="text-gray-400 mr-4">End time</p>
+              <Input
+                value={spanEndTime.format("YYYY-MM-DDTHH:mm")}
+                onChange={(e) => setSpanEndTime(dayjs(e.target.value))}
+                placeholder="End time"
+                type="datetime-local"
+                className="flex-grow"
+              />
+            </div>
+          </TabPanel>
+          <TabPanel className="flex flex-col space-y-4">
+            <div className="flex flex-row space-x-1 px-4 py-2 border rounded-md shadow bg-white items-center">
+              <p className="text-gray-400">Deadline</p>
+              <Input
+                value={deadlineTime.format("YYYY-MM-DDTHH:mm")}
+                onChange={(e) => setDeadlineTime(dayjs(e.target.value))}
+                placeholder="Deadline"
+                type="datetime-local"
+                className="flex-grow"
+              />
+            </div>
+          </TabPanel>
+          <TabPanel className="flex flex-col space-y-4">
+            <div className="flex flex-row space-x-1 px-4 py-2 border rounded-md shadow bg-white items-center">
+              <p className="text-gray-400">Time</p>
+              <Input
+                value={remindTime.format("YYYY-MM-DDTHH:mm")}
+                onChange={(e) => setRemindTime(dayjs(e.target.value))}
+                placeholder="Time"
+                type="datetime-local"
+                className="flex-grow"
+              />
+            </div>
+          </TabPanel>
+        </TabPanels>
+      </TabGroup>
 
       <div className="px-4 py-2 border rounded-md shadow bg-white flex flex-row space-x-6 items-center">
         <p className="text-gray-400">Priority</p>
